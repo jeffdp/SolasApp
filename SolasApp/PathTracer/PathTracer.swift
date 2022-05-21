@@ -28,6 +28,35 @@ class PathTracer {
         return Color(lerp)
     }
 
+    func gradiant(width: Int, height: Int) -> NSImage {
+        var pixels = [RGBA<UInt8>]()
+        pixels.reserveCapacity(width * height)
+
+        let camera = Camera(lowerLeft: vec3(-2, -1, -1),
+                            horizontal: vec3(4, 0, 0),
+                            vertical: vec3(0, 2, 0),
+                            origin: vec3(0, 0, 0))
+
+        for j in (0..<height).reversed() {
+            for i in 0..<width {
+                let u = (Float(i) + 0.5) / Float(width)
+                let v = (Float(j) + 0.5) / Float(height)
+                let ray = camera.ray(u: u, v: v)
+                let color = gradient(ray: ray)
+
+                let pixel = RGBA(red: UInt8(color.red),
+                                 green: UInt8(color.green),
+                                 blue: UInt8(color.blue))
+                pixels.append(pixel)
+            }
+        }
+        
+        let image = Image(width: width, height: height, pixels: pixels)
+        
+        return image.nsImage
+
+    }
+    
     func trace(width: Int, height: Int) -> NSImage {
         var pixels = [RGBA<UInt8>]()
         pixels.reserveCapacity(width * height)

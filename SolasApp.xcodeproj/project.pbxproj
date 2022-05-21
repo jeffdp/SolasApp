@@ -22,6 +22,7 @@
 		1FB46F3128397832006F4E6B /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F3028397832006F4E6B /* Vector.swift */; };
 		1FB46F33283979DA006F4E6B /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F32283979DA006F4E6B /* Image.swift */; };
 		1FB46F36283983D7006F4E6B /* SwiftImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1FB46F35283983D7006F4E6B /* SwiftImage */; };
+		1FB46F38283994D9006F4E6B /* RenderView+Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F37283994D9006F4E6B /* RenderView+Observer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		1FB46F2E2839782E006F4E6B /* Ray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ray.swift; sourceTree = "<group>"; };
 		1FB46F3028397832006F4E6B /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
 		1FB46F32283979DA006F4E6B /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		1FB46F37283994D9006F4E6B /* RenderView+Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RenderView+Observer.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				1FB46F102839766E006F4E6B /* SolasAppApp.swift */,
 				1FB46F122839766E006F4E6B /* ContentView.swift */,
 				1FB46F1F2839769C006F4E6B /* RenderView.swift */,
+				1FB46F37283994D9006F4E6B /* RenderView+Observer.swift */,
 				1FB46F23283977FE006F4E6B /* PathTracer */,
 				1FB46F142839766E006F4E6B /* Assets.xcassets */,
 				1FB46F192839766E006F4E6B /* SolasApp.entitlements */,
@@ -186,6 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1FB46F2B2839781D006F4E6B /* Pixel.swift in Sources */,
+				1FB46F38283994D9006F4E6B /* RenderView+Observer.swift in Sources */,
 				1FB46F33283979DA006F4E6B /* Image.swift in Sources */,
 				1FB46F3128397832006F4E6B /* Vector.swift in Sources */,
 				1FB46F2928397818006F4E6B /* Material.swift in Sources */,

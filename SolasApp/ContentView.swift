@@ -4,15 +4,11 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Solas")
-        
-        VStack {
-            HStack {
-                RenderView()
-                    .frame(minWidth: nil, idealWidth: nil, maxWidth: .infinity, minHeight: nil, idealHeight: nil, maxHeight: .infinity, alignment: .top)
-                    .padding()
-            }
-        }
+        RenderView()
+            .frame(minWidth: nil, idealWidth: nil, maxWidth: .infinity,
+                   minHeight: nil, idealHeight: nil, maxHeight: .infinity,
+                   alignment: .center)
+            .padding()
     }
 }
 
