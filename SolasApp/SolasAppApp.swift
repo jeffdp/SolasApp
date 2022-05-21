@@ -1,9 +1,4 @@
-//
-//  SolasAppApp.swift
-//  SolasApp
-//
-//  Created by Jeffrey Porter on 5/21/22.
-//
+//  Copyright © 2022 Jeff Porter. All rights reserved.
 
 import SwiftUI
 

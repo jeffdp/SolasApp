@@ -11,6 +11,17 @@
 		1FB46F132839766E006F4E6B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F122839766E006F4E6B /* ContentView.swift */; };
 		1FB46F152839766E006F4E6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FB46F142839766E006F4E6B /* Assets.xcassets */; };
 		1FB46F182839766E006F4E6B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FB46F172839766E006F4E6B /* Preview Assets.xcassets */; };
+		1FB46F202839769C006F4E6B /* RenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F1F2839769C006F4E6B /* RenderView.swift */; };
+		1FB46F222839774A006F4E6B /* PathTracer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F212839774A006F4E6B /* PathTracer.swift */; };
+		1FB46F252839780C006F4E6B /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F242839780C006F4E6B /* Camera.swift */; };
+		1FB46F2728397813006F4E6B /* Intersections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F2628397813006F4E6B /* Intersections.swift */; };
+		1FB46F2928397818006F4E6B /* Material.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F2828397818006F4E6B /* Material.swift */; };
+		1FB46F2B2839781D006F4E6B /* Pixel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F2A2839781D006F4E6B /* Pixel.swift */; };
+		1FB46F2D28397828006F4E6B /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F2C28397828006F4E6B /* Color.swift */; };
+		1FB46F2F2839782E006F4E6B /* Ray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F2E2839782E006F4E6B /* Ray.swift */; };
+		1FB46F3128397832006F4E6B /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F3028397832006F4E6B /* Vector.swift */; };
+		1FB46F33283979DA006F4E6B /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F32283979DA006F4E6B /* Image.swift */; };
+		1FB46F36283983D7006F4E6B /* SwiftImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1FB46F35283983D7006F4E6B /* SwiftImage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +31,16 @@
 		1FB46F142839766E006F4E6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1FB46F172839766E006F4E6B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1FB46F192839766E006F4E6B /* SolasApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SolasApp.entitlements; sourceTree = "<group>"; };
+		1FB46F1F2839769C006F4E6B /* RenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderView.swift; sourceTree = "<group>"; };
+		1FB46F212839774A006F4E6B /* PathTracer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathTracer.swift; sourceTree = "<group>"; };
+		1FB46F242839780C006F4E6B /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		1FB46F2628397813006F4E6B /* Intersections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Intersections.swift; sourceTree = "<group>"; };
+		1FB46F2828397818006F4E6B /* Material.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Material.swift; sourceTree = "<group>"; };
+		1FB46F2A2839781D006F4E6B /* Pixel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pixel.swift; sourceTree = "<group>"; };
+		1FB46F2C28397828006F4E6B /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		1FB46F2E2839782E006F4E6B /* Ray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ray.swift; sourceTree = "<group>"; };
+		1FB46F3028397832006F4E6B /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
+		1FB46F32283979DA006F4E6B /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FB46F36283983D7006F4E6B /* SwiftImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,6 +76,8 @@
 			children = (
 				1FB46F102839766E006F4E6B /* SolasAppApp.swift */,
 				1FB46F122839766E006F4E6B /* ContentView.swift */,
+				1FB46F1F2839769C006F4E6B /* RenderView.swift */,
+				1FB46F23283977FE006F4E6B /* PathTracer */,
 				1FB46F142839766E006F4E6B /* Assets.xcassets */,
 				1FB46F192839766E006F4E6B /* SolasApp.entitlements */,
 				1FB46F162839766E006F4E6B /* Preview Content */,
@@ -67,6 +91,22 @@
 				1FB46F172839766E006F4E6B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1FB46F23283977FE006F4E6B /* PathTracer */ = {
+			isa = PBXGroup;
+			children = (
+				1FB46F212839774A006F4E6B /* PathTracer.swift */,
+				1FB46F242839780C006F4E6B /* Camera.swift */,
+				1FB46F2C28397828006F4E6B /* Color.swift */,
+				1FB46F32283979DA006F4E6B /* Image.swift */,
+				1FB46F2628397813006F4E6B /* Intersections.swift */,
+				1FB46F2828397818006F4E6B /* Material.swift */,
+				1FB46F2A2839781D006F4E6B /* Pixel.swift */,
+				1FB46F2E2839782E006F4E6B /* Ray.swift */,
+				1FB46F3028397832006F4E6B /* Vector.swift */,
+			);
+			path = PathTracer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -85,6 +125,9 @@
 			dependencies = (
 			);
 			name = SolasApp;
+			packageProductDependencies = (
+				1FB46F35283983D7006F4E6B /* SwiftImage */,
+			);
 			productName = SolasApp;
 			productReference = 1FB46F0D2839766E006F4E6B /* SolasApp.app */;
 			productType = "com.apple.product-type.application";
@@ -113,6 +156,9 @@
 				Base,
 			);
 			mainGroup = 1FB46F042839766E006F4E6B;
+			packageReferences = (
+				1FB46F34283983D7006F4E6B /* XCRemoteSwiftPackageReference "swift-image" */,
+			);
 			productRefGroup = 1FB46F0E2839766E006F4E6B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -139,8 +185,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FB46F2B2839781D006F4E6B /* Pixel.swift in Sources */,
+				1FB46F33283979DA006F4E6B /* Image.swift in Sources */,
+				1FB46F3128397832006F4E6B /* Vector.swift in Sources */,
+				1FB46F2928397818006F4E6B /* Material.swift in Sources */,
 				1FB46F132839766E006F4E6B /* ContentView.swift in Sources */,
+				1FB46F252839780C006F4E6B /* Camera.swift in Sources */,
+				1FB46F2F2839782E006F4E6B /* Ray.swift in Sources */,
+				1FB46F2728397813006F4E6B /* Intersections.swift in Sources */,
+				1FB46F222839774A006F4E6B /* PathTracer.swift in Sources */,
 				1FB46F112839766E006F4E6B /* SolasAppApp.swift in Sources */,
+				1FB46F202839769C006F4E6B /* RenderView.swift in Sources */,
+				1FB46F2D28397828006F4E6B /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +392,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1FB46F34283983D7006F4E6B /* XCRemoteSwiftPackageReference "swift-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/koher/swift-image.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1FB46F35283983D7006F4E6B /* SwiftImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1FB46F34283983D7006F4E6B /* XCRemoteSwiftPackageReference "swift-image" */;
+			productName = SwiftImage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1FB46F052839766E006F4E6B /* Project object */;
 }
