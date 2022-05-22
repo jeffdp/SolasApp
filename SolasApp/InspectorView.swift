@@ -10,6 +10,12 @@ struct InspectorView: View {
         VStack {
             Form {
                 Text("Details")
+                    .font(.headline)
+                
+                Picker("Scene", selection: $settings.selectedScene) {
+                    Text("Four Squares").tag(RenderScene.fourSquares)
+                }
+                
                 Picker("Render Method", selection: $settings.selectedRenderer) {
                     Text("Test Gradient").tag(RenderView.Renderer.testGradient)
                     Text("Single thread").tag(RenderView.Renderer.single)
@@ -31,6 +37,6 @@ struct InspectorView: View {
             Spacer()
         }
         .padding()
-        .frame(idealWidth: 250, maxWidth: 250, maxHeight: .infinity)
+        .frame(idealWidth: 300, maxWidth: 300, maxHeight: .infinity)
     }
 }

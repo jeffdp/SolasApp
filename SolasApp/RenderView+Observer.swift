@@ -22,7 +22,8 @@ extension RenderView {
             fatalError("How'd a non-number get here?")
         }
         
-        return try await pathTracer.renderSingle(width: settings.width,
+        return try await pathTracer.renderSingle(scene: settings.selectedScene,
+                                                 width: settings.width,
                                                  height: settings.height,
                                                  numberOfSamples: samples)
     }

@@ -3,6 +3,7 @@
 import SwiftUI
 
 class Settings: ObservableObject {
+    @Published var selectedScene: RenderScene = .fourSquares
     @Published var selectedRenderer: RenderView.Renderer = .testGradient
     @Published var numberOfSamples = "5"
     @Published var width = 800
