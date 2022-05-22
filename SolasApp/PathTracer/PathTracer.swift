@@ -29,12 +29,12 @@ actor PathTracer {
         }
     }
     
-    func renderSimpleAsync(width: Int, height: Int) async throws -> NSImage {
+    func renderSimpleAsync(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) async throws -> NSImage {
         print("  simple: isMain=\(Thread.isMainThread)")
         return try await renderGradient(width: width, height: height)
     }
     
-    func renderTaskGroup(width: Int, height: Int) async throws -> NSImage {
+    func renderTaskGroup(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) async throws -> NSImage {
         print("    task: isMain=\(Thread.isMainThread)")
         return try await renderGradient(width: width, height: height)
     }

@@ -28,11 +28,27 @@ extension RenderView {
                                                  numberOfSamples: samples)
     }
     
-    func renderSimpleAsync() async throws -> NSImage{
-        return try await pathTracer.renderSimpleAsync(width: settings.width, height: settings.height)
+    func renderSimpleAsync() async throws -> NSImage {
+        guard let samples = Int(settings.numberOfSamples) else {
+            // TODO: Throw something
+            fatalError("How'd a non-number get here?")
+        }
+
+        return try await pathTracer.renderSimpleAsync(scene: settings.selectedScene,
+                                                      width: settings.width,
+                                                      height: settings.height,
+                                                      numberOfSamples: samples)
     }
 
-    func renderTaskGroup() async throws -> NSImage{
-        return try await pathTracer.renderTaskGroup(width: settings.width, height: settings.height)
+    func renderTaskGroup() async throws -> NSImage {
+        guard let samples = Int(settings.numberOfSamples) else {
+            // TODO: Throw something
+            fatalError("How'd a non-number get here?")
+        }
+
+        return try await pathTracer.renderTaskGroup(scene: settings.selectedScene,
+                                                    width: settings.width,
+                                                    height: settings.height,
+                                                    numberOfSamples: samples)
     }
 }
