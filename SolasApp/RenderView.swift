@@ -5,10 +5,7 @@ import SwiftUI
 struct RenderView: View {
     let pathTracer = PathTracer()
     @StateObject var observer = Observer()
-    
-    init() {
-
-    }
+    @Binding var selectedRenderer: RenderView.Renderer
     
     var body: some View {
         Group {
@@ -21,7 +18,30 @@ struct RenderView: View {
             }
         }
         .task {
-            await renderGradiant()
+            let image: NSImage
+            do {
+                image = try await renderGradient()
+            } catch let error {
+                fatalError(error.localizedDescription)
+            }
+            observer.image = image
+        }
+        .onChange(of: selectedRenderer) { newValue in
+            Task { @MainActor in
+                let image: NSImage
+                switch newValue {
+                case .testGradient:
+                     image = try await renderGradient()
+                case .single:
+                    image = try await renderSingle()
+                case .async:
+                    image = try await renderSimpleAsync()
+                case .task:
+                    image = try await renderTaskGroup()
+                }
+                
+                observer.image = image
+            }
         }
     }
 }

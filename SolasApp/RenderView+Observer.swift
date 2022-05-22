@@ -1,28 +1,34 @@
-//
-//  RenderView+Observer.swift
-//  SolasApp
-//
-//  Created by Jeffrey Porter on 5/21/22.
-//
+//  Copyright © 2022 Jeff Porter. All rights reserved.
 
 import SwiftUI
 
 extension RenderView {
+    enum Renderer: String, CaseIterable, Identifiable {
+        case testGradient, single, async, task
+        var id: Self { self }
+    }
+    
     class Observer: ObservableObject {
         @Published var image: NSImage?
         @Published var width = 800
         @Published var height = 400
+        
+        @Published var selectedRenderer: Renderer = .single
     }
     
-    func renderGradiant() async {
-        let image = pathTracer.gradiant(width: observer.width, height: observer.height)
-        
-        await MainActor.run {
-            observer.image = image
-        }
+    func renderGradient() async throws -> NSImage {
+        return try await pathTracer.renderGradient(width: observer.width, height: observer.height)
     }
     
-    func renderSingle() async {
-        
+    func renderSingle() async throws -> NSImage {
+        return try await pathTracer.renderSingle(width: observer.width, height: observer.height)
+    }
+    
+    func renderSimpleAsync() async throws -> NSImage{
+        return try await pathTracer.renderSimpleAsync(width: observer.width, height: observer.height)
+    }
+
+    func renderTaskGroup() async throws -> NSImage{
+        return try await pathTracer.renderTaskGroup(width: observer.width, height: observer.height)
     }
 }

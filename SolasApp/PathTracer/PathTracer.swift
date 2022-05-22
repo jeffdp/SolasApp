@@ -3,15 +3,49 @@
 import SwiftImage
 import AppKit
 
-class PathTracer {
-    func gradient(ray: Ray) -> Color {
+actor PathTracer {
+    // MARK: - Async API
+    
+    func renderGradient(width: Int, height: Int) async throws -> NSImage {
+        return await withCheckedContinuation { continuation in
+            print("gradient: isMain=\(Thread.isMainThread)")
+            
+            let image = gradient(width: width, height: height)
+            
+            continuation.resume(returning: image)
+        }
+    }
+    
+    func renderSingle(width: Int, height: Int) async throws -> NSImage {
+        return await withCheckedContinuation { continuation in
+            print("  single: isMain=\(Thread.isMainThread)")
+            
+            let image = trace(width: width, height: height)
+            
+            continuation.resume(returning: image)
+        }
+    }
+    
+    func renderSimpleAsync(width: Int, height: Int) async throws -> NSImage {
+        print("  simple: isMain=\(Thread.isMainThread)")
+        return try await renderGradient(width: width, height: height)
+    }
+    
+    func renderTaskGroup(width: Int, height: Int) async throws -> NSImage {
+        print("    task: isMain=\(Thread.isMainThread)")
+        return try await renderGradient(width: width, height: height)
+    }
+    
+    // MARK: - Internal methods
+    
+    private func gradient(ray: Ray) -> Color {
         let direction = ray.direction.normalized()
         let t = Float((direction.y + 1.0) / 2.0)
         let gradient = (1.0 - t) * SIMD3<Float>([1, 1, 1]) + t * SIMD3<Float>([0.5, 0.7, 1.0])
         return Color(gradient)
     }
     
-    func color(_ ray: Ray, objects: [Hitable], depth: Int) -> Color {
+    private func color(_ ray: Ray, objects: [Hitable], depth: Int) -> Color {
         if let hit = hit(ray: ray, objects: objects) {
             guard depth < 10,
                 let (attenuation, scattered) = hit.material.scatter(ray: ray, hit: hit) else {
@@ -28,7 +62,7 @@ class PathTracer {
         return Color(lerp)
     }
 
-    func gradiant(width: Int, height: Int) -> NSImage {
+    private func gradient(width: Int, height: Int) -> NSImage {
         var pixels = [RGBA<UInt8>]()
         pixels.reserveCapacity(width * height)
 
@@ -54,10 +88,9 @@ class PathTracer {
         let image = Image(width: width, height: height, pixels: pixels)
         
         return image.nsImage
-
     }
     
-    func trace(width: Int, height: Int) -> NSImage {
+    private func trace(width: Int, height: Int) -> NSImage {
         var pixels = [RGBA<UInt8>]()
         pixels.reserveCapacity(width * height)
 
@@ -81,9 +114,13 @@ class PathTracer {
                            material: DialectricMaterial(refractiveIndex: 1.5)),
         ]
 
-        let numberOfSamples = 20
+        let numberOfSamples = 1
 
         for j in (0..<height).reversed() {
+            if j % 100 == 0 {
+                print("\(Double(height - j)/Double(height) * 100)%")
+            }
+            
             for i in 0..<width {
                 var accumulatedColor = Color()
                 for _ in 0..<numberOfSamples {
