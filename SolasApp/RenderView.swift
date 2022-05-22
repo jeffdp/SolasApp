@@ -3,10 +3,11 @@
 import SwiftUI
 
 struct RenderView: View {
-    let pathTracer = PathTracer()
+    @ObservedObject var settings: Settings
     @StateObject var observer = Observer()
-    @Binding var selectedRenderer: RenderView.Renderer
-    
+
+    let pathTracer = PathTracer()
+
     var body: some View {
         Group {
             if let image = observer.image {
@@ -26,7 +27,7 @@ struct RenderView: View {
             }
             observer.image = image
         }
-        .onChange(of: selectedRenderer) { newValue in
+        .onChange(of: settings.selectedRenderer) { newValue in
             Task { @MainActor in
                 let image: NSImage
                 switch newValue {

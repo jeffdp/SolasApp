@@ -2,17 +2,24 @@
 
 import SwiftUI
 
+class Settings: ObservableObject {
+    @Published var selectedRenderer: RenderView.Renderer = .testGradient
+    @Published var numberOfSamples = "5"
+    @Published var width = 800
+    @Published var height = 400
+}
+
 struct ContentView: View {
-    @State var selectedRenderer: RenderView.Renderer = .testGradient
+    @StateObject var settings = Settings()
     
     var body: some View {
         HSplitView {
-            RenderView(selectedRenderer: $selectedRenderer)
+            RenderView(settings: settings)
                 .frame(minWidth: nil, idealWidth: nil, maxWidth: .infinity,
                        minHeight: nil, idealHeight: nil, maxHeight: .infinity,
                        alignment: .center)
                 .padding()
-            InspectorView(selectedRenderer: $selectedRenderer)
+            InspectorView(settings: settings)
         }
     }
 }

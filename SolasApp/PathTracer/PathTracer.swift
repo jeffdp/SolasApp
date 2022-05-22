@@ -16,11 +16,11 @@ actor PathTracer {
         }
     }
     
-    func renderSingle(width: Int, height: Int) async throws -> NSImage {
+    func renderSingle(width: Int, height: Int, numberOfSamples: Int) async throws -> NSImage {
         return await withCheckedContinuation { continuation in
             print("  single: isMain=\(Thread.isMainThread)")
             
-            let image = trace(width: width, height: height)
+            let image = trace(width: width, height: height, numberOfSamples: numberOfSamples)
             
             continuation.resume(returning: image)
         }
@@ -90,7 +90,7 @@ actor PathTracer {
         return image.nsImage
     }
     
-    private func trace(width: Int, height: Int) -> NSImage {
+    private func trace(width: Int, height: Int, numberOfSamples: Int) -> NSImage {
         var pixels = [RGBA<UInt8>]()
         pixels.reserveCapacity(width * height)
 
@@ -113,8 +113,6 @@ actor PathTracer {
                            radius: 0.5,
                            material: DialectricMaterial(refractiveIndex: 1.5)),
         ]
-
-        let numberOfSamples = 1
 
         for j in (0..<height).reversed() {
             if j % 100 == 0 {

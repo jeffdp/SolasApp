@@ -10,25 +10,28 @@ extension RenderView {
     
     class Observer: ObservableObject {
         @Published var image: NSImage?
-        @Published var width = 800
-        @Published var height = 400
-        
-        @Published var selectedRenderer: Renderer = .single
     }
     
     func renderGradient() async throws -> NSImage {
-        return try await pathTracer.renderGradient(width: observer.width, height: observer.height)
+        return try await pathTracer.renderGradient(width: settings.width, height: settings.height)
     }
     
     func renderSingle() async throws -> NSImage {
-        return try await pathTracer.renderSingle(width: observer.width, height: observer.height)
+        guard let samples = Int(settings.numberOfSamples) else {
+            // TODO: Throw something
+            fatalError("How'd a non-number get here?")
+        }
+        
+        return try await pathTracer.renderSingle(width: settings.width,
+                                                 height: settings.height,
+                                                 numberOfSamples: samples)
     }
     
     func renderSimpleAsync() async throws -> NSImage{
-        return try await pathTracer.renderSimpleAsync(width: observer.width, height: observer.height)
+        return try await pathTracer.renderSimpleAsync(width: settings.width, height: settings.height)
     }
 
     func renderTaskGroup() async throws -> NSImage{
-        return try await pathTracer.renderTaskGroup(width: observer.width, height: observer.height)
+        return try await pathTracer.renderTaskGroup(width: settings.width, height: settings.height)
     }
 }
