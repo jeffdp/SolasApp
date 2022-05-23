@@ -2,14 +2,15 @@
 
 import SwiftImage
 import AppKit
+import SwiftUI
 
 actor PathTracer {
+    static let progressNotification = Notification.Name("RenderProgressNotification")
+    
     // MARK: - Async API
     
     func renderGradient(width: Int, height: Int) async throws -> NSImage {
         return await withCheckedContinuation { continuation in
-            print("gradient: isMain=\(Thread.isMainThread)")
-            
             let image = gradient(width: width, height: height)
             
             continuation.resume(returning: image)
@@ -17,9 +18,11 @@ actor PathTracer {
     }
     
     func renderSingle(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) async throws -> NSImage {
+        print("main (before withCheckedContinuation): \(Thread.isMainThread)")
+        
         return await withCheckedContinuation { continuation in
-            print("  single: isMain=\(Thread.isMainThread)")
-            
+            print("main (inside withCheckedContinuation): \(Thread.isMainThread)")
+
             let image = trace(scene: scene,
                               width: width,
                               height: height,
@@ -30,12 +33,10 @@ actor PathTracer {
     }
     
     func renderSimpleAsync(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) async throws -> NSImage {
-        print("  simple: isMain=\(Thread.isMainThread)")
         return try await renderGradient(width: width, height: height)
     }
     
     func renderTaskGroup(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) async throws -> NSImage {
-        print("    task: isMain=\(Thread.isMainThread)")
         return try await renderGradient(width: width, height: height)
     }
     
@@ -48,11 +49,12 @@ actor PathTracer {
         pixels.reserveCapacity(width * height)
 
         for j in (0..<height).reversed() {
-            if j % 100 == 0 {
-                print("\(Double(height - j)/Double(height) * 100)%")
-            }
-            
             for i in 0..<width {
+                if i % 100 == 0 {
+                    let progress = Double(height - 1 - j)/Double(height) + (Double(i) / (Double(width * height)))
+                    NotificationCenter.default.post(name: Self.progressNotification, object: progress)
+                }
+                
                 var accumulatedColor = Color()
                 for _ in 0..<numberOfSamples {
                     let u = (Float(i) + Float.random(in: 0...1)) / Float(width)

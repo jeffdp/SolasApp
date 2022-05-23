@@ -5,7 +5,8 @@ import Combine
 
 struct InspectorView: View {
     @ObservedObject var settings: Settings
-
+    @ObservedObject var renderService: RenderService
+    
     var body: some View {
         VStack {
             Form {
@@ -17,10 +18,10 @@ struct InspectorView: View {
                 }
                 
                 Picker("Render Method", selection: $settings.selectedRenderer) {
-                    Text("Test Gradient").tag(RenderView.Renderer.testGradient)
-                    Text("Single thread").tag(RenderView.Renderer.single)
-                    Text("Simple Async").tag(RenderView.Renderer.async)
-                    Text("Task Groups").tag(RenderView.Renderer.task)
+                    Text("Test Gradient").tag(Renderer.testGradient)
+                    Text("Single thread").tag(Renderer.single)
+                    Text("Simple Async").tag(Renderer.async)
+                    Text("Task Groups").tag(Renderer.task)
                 }
             
                 TextField("Number of samples", text: $settings.numberOfSamples)
@@ -31,12 +32,27 @@ struct InspectorView: View {
                             self.settings.numberOfSamples = filtered
                         }
                 }
-
             }
             
             Spacer()
+            
+            if let progress = renderService.renderProgress {
+                ProgressView(value: progress)
+                    .progressViewStyle(.linear)
+            }
+            
+            Button(action: render) {
+                Text("Render")
+                    .buttonStyle(.borderedProminent)
+            }
         }
         .padding()
         .frame(idealWidth: 300, maxWidth: 300, maxHeight: .infinity)
+    }
+    
+    func render() {
+        Task {
+            try await renderService.render(settings: settings)
+        }
     }
 }

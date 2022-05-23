@@ -22,9 +22,9 @@
 		1FB46F3128397832006F4E6B /* Vector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F3028397832006F4E6B /* Vector.swift */; };
 		1FB46F33283979DA006F4E6B /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F32283979DA006F4E6B /* Image.swift */; };
 		1FB46F36283983D7006F4E6B /* SwiftImage in Frameworks */ = {isa = PBXBuildFile; productRef = 1FB46F35283983D7006F4E6B /* SwiftImage */; };
-		1FB46F38283994D9006F4E6B /* RenderView+Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F37283994D9006F4E6B /* RenderView+Observer.swift */; };
 		1FB46F3A28399A61006F4E6B /* InspectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F3928399A61006F4E6B /* InspectorView.swift */; };
 		1FB46F3C283AECC3006F4E6B /* RenderScenes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F3B283AECC3006F4E6B /* RenderScenes.swift */; };
+		1FB46F3E283B047C006F4E6B /* RenderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FB46F3D283B047C006F4E6B /* RenderService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,9 +44,9 @@
 		1FB46F2E2839782E006F4E6B /* Ray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ray.swift; sourceTree = "<group>"; };
 		1FB46F3028397832006F4E6B /* Vector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vector.swift; sourceTree = "<group>"; };
 		1FB46F32283979DA006F4E6B /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
-		1FB46F37283994D9006F4E6B /* RenderView+Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RenderView+Observer.swift"; sourceTree = "<group>"; };
 		1FB46F3928399A61006F4E6B /* InspectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorView.swift; sourceTree = "<group>"; };
 		1FB46F3B283AECC3006F4E6B /* RenderScenes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderScenes.swift; sourceTree = "<group>"; };
+		1FB46F3D283B047C006F4E6B /* RenderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +61,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F5C1D8F283B1660008995F4 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				1FB46F3D283B047C006F4E6B /* RenderService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		1FB46F042839766E006F4E6B = {
 			isa = PBXGroup;
 			children = (
@@ -84,7 +92,7 @@
 				1FB46F122839766E006F4E6B /* ContentView.swift */,
 				1FB46F3928399A61006F4E6B /* InspectorView.swift */,
 				1FB46F1F2839769C006F4E6B /* RenderView.swift */,
-				1FB46F37283994D9006F4E6B /* RenderView+Observer.swift */,
+				1F5C1D8F283B1660008995F4 /* Service */,
 				1FB46F23283977FE006F4E6B /* PathTracer */,
 				1FB46F142839766E006F4E6B /* Assets.xcassets */,
 				1FB46F192839766E006F4E6B /* SolasApp.entitlements */,
@@ -194,8 +202,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FB46F3E283B047C006F4E6B /* RenderService.swift in Sources */,
 				1FB46F2B2839781D006F4E6B /* Pixel.swift in Sources */,
-				1FB46F38283994D9006F4E6B /* RenderView+Observer.swift in Sources */,
 				1FB46F3C283AECC3006F4E6B /* RenderScenes.swift in Sources */,
 				1FB46F33283979DA006F4E6B /* Image.swift in Sources */,
 				1FB46F3128397832006F4E6B /* Vector.swift in Sources */,
