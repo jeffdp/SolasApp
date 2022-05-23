@@ -3,6 +3,8 @@
 
 import SwiftUI
 import Combine
+import CoreImage
+import CoreImage.CIFilterBuiltins
 
 class RenderService: ObservableObject {
     @Published var image: NSImage?
@@ -46,6 +48,24 @@ class RenderService: ObservableObject {
     }
     
     // MARK: - Internal methods
+    
+    private func denoise(_ image: NSImage) -> NSImage {
+        let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)!
+
+        let context = CIContext()
+        let currentFilter = CIFilter.noiseReduction()
+        currentFilter.inputImage = CIImage(cgImage: cgImage)
+        currentFilter.noiseLevel = 5
+        currentFilter.sharpness = 10
+
+        guard let outputImage = currentFilter.outputImage,
+              let cgimg = context.createCGImage(outputImage, from: outputImage.extent) else {
+            print("Noise reduction failed")
+            return image
+        }
+
+       return NSImage(cgImage: cgimg, size: image.size)
+    }
     
     private func renderGradient(settings: Settings) async throws -> NSImage {
         return try await pathTracer.renderGradient(width: settings.width, height: settings.height)

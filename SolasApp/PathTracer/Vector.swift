@@ -26,5 +26,16 @@ extension SIMD3 where Scalar == Float {
 
         return niOverNt * (uv - n*dt) - n*sqrt(discriminant)
     }
-
+    
+    static func *(lhs: Float, rhs: vec3) -> vec3 {
+        vec3(lhs * rhs.x, lhs * rhs.y, lhs * rhs.z)
+    }
+    
+    static func +(lhs: Float, rhs: vec3) -> vec3 {
+        vec3(lhs + rhs.x, lhs + rhs.y, lhs + rhs.z)
+    }
+    
+    static func +(lhs: vec3, rhs: vec3) -> vec3 {
+        vec3(lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z)
+    }
 }

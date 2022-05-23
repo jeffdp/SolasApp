@@ -8,11 +8,11 @@ enum Renderer: String, CaseIterable, Identifiable {
 }
 
 class Settings: ObservableObject {
-    @Published var selectedScene: RenderScene = .fourSquares
-    @Published var selectedRenderer: Renderer = .testGradient
+    @Published var selectedScene: RenderScene = .randomSpheres
+    @Published var selectedRenderer: Renderer = .single
     @Published var numberOfSamples = "1"
-    @Published var width = 800
-    @Published var height = 400
+    @Published var width = 1200
+    @Published var height = Int(1200.0 * 9.0 / 16.0)
 }
 
 struct ContentView: View {

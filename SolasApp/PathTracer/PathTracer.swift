@@ -75,8 +75,7 @@ actor PathTracer {
         }
         
         let image = Image(width: width, height: height, pixels: pixels)
-        
-        return image.nsImage
+        return image.nsImage        
     }
     
     private func gradient(ray: Ray) -> Color {

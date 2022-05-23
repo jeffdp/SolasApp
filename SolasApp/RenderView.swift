@@ -9,8 +9,6 @@ struct RenderView: View {
         ZStack(alignment: .center) {
             if let image = image {
                 Image(nsImage: image)
-                    .resizable(resizingMode: .stretch)
-                    .scaledToFill()
             } else {
                 EmptyView()
             }

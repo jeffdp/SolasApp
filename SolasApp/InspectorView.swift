@@ -14,7 +14,9 @@ struct InspectorView: View {
                     .font(.headline)
                 
                 Picker("Scene", selection: $settings.selectedScene) {
-                    Text("Four Squares").tag(RenderScene.fourSquares)
+                    Text("Two Spheres").tag(RenderScene.twoSpheres)
+                    Text("Four Spheres").tag(RenderScene.fourSpheres)
+                    Text("Random Spheres").tag(RenderScene.randomSpheres)
                 }
                 
                 Picker("Render Method", selection: $settings.selectedRenderer) {
