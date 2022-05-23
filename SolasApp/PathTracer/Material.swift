@@ -72,7 +72,7 @@ class DialectricMaterial: Material {
         } else {
             outwardNormal = hit.normal
             niOverNt = 1.0 / refractiveIndex
-            cosine = dot(ray.direction, hit.normal) / ray.direction.length
+            cosine = -dot(ray.direction, hit.normal) / ray.direction.length
         }
 
         if let refracted = ray.direction.refract(outwardNormal, niOverNt: niOverNt) {

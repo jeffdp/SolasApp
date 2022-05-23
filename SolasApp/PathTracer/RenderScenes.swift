@@ -26,24 +26,25 @@ protocol Renderable {
 }
 
 struct TwoSpheres: Renderable {
-    var camera: Camera {
+    let camera: Camera
+    let objects: [Hitable]
+    
+    init() {
         let lookfrom = vec3(13,2,3)
         let lookat = vec3(0,0,0)
         let vup = vec3(0,1,0)
         let distToFocus: Float = 10.0
         let aspectRatio: Float = 16.0 / 9.0;
-
-        return Camera(lookFrom: lookfrom,
-                      lookAt: lookat,
-                      vertical: vup,
-                      vfov: 20,
-                      aspect: aspectRatio,
-                      aperture: aspectRatio,
-                      focusDist: distToFocus)
-    }
-    
-    var objects: [Hitable] {
-        [
+        
+        self.camera = Camera(lookFrom: lookfrom,
+                             lookAt: lookat,
+                             vertical: vup,
+                             vfov: 20,
+                             aspect: aspectRatio,
+                             aperture: aspectRatio,
+                             focusDist: distToFocus)
+        
+        self.objects = [
             Sphere(center: vec3(0, 0, -1), radius: 0.5, material: LambertianMaterial(vec3(0.1, 0.1, 0.8))),
             Sphere(center: vec3(0, -100.5, 0.5), radius: 100, material: LambertianMaterial(vec3(0.8, 0.8, 0.0)))
         ]
@@ -51,27 +52,27 @@ struct TwoSpheres: Renderable {
 }
 
 struct FourSpheres: Renderable {
-    var camera: Camera {
-        Camera(lowerLeft: vec3(-2, -1, -1),
-               horizontal: vec3(4, 0, 0),
-               vertical: vec3(0, 2, 0),
-               origin: vec3(0, 0, 0))
-    }
+    let camera: Camera
+    let objects: [Hitable]
     
-    var objects: [Hitable] {
-        [
+    init() {
+        self.camera = Camera(lowerLeft: vec3(-2, -1, -1),
+                             horizontal: vec3(4, 0, 0),
+                             vertical: vec3(0, 2, 0),
+                             origin: vec3(0, 0, 0))
+        self.objects = [
             Sphere(center: vec3(0, 0, -1),
-                           radius: 0.5,
-                           material: LambertianMaterial(vec3(0.8, 0.3, 0.3))),
+                   radius: 0.5,
+                   material: LambertianMaterial(vec3(0.8, 0.3, 0.3))),
             Sphere(center: vec3(0, -100.5, -1),
-                           radius: 100,
-                           material: LambertianMaterial(vec3(0.8, 0.8, 0.0))),
+                   radius: 100,
+                   material: LambertianMaterial(vec3(0.8, 0.8, 0.0))),
             Sphere(center: vec3(1, 0, -1),
-                           radius: 0.5,
-                           material: MetalMaterial(vec3(0.8, 0.6, 0.2), fuzz: 0.5)),
+                   radius: 0.5,
+                   material: MetalMaterial(vec3(0.8, 0.6, 0.2), fuzz: 0.5)),
             Sphere(center: vec3(-1, 0, -1),
-                           radius: 0.5,
-                           material: DialectricMaterial(refractiveIndex: 1.5)),
+                   radius: 0.5,
+                   material: DialectricMaterial(refractiveIndex: 1.5)),
         ]
     }
 }
