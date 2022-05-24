@@ -6,6 +6,11 @@ import Combine
 import CoreImage
 import CoreImage.CIFilterBuiltins
 
+enum RenderError: Error {
+    case sampleOutOfRange
+    case badImage
+}
+
 class RenderService: ObservableObject {
     @Published var image: NSImage?
     @Published var renderProgress: Float?
@@ -74,10 +79,7 @@ class RenderService: ObservableObject {
     private func renderSingle(settings: Settings) async throws -> NSImage {
         print("main (renderSingle(settings:): \(Thread.isMainThread)")
 
-        guard let samples = Int(settings.numberOfSamples) else {
-            // TODO: Throw something
-            fatalError("How'd a non-number get here?")
-        }
+        let samples = Int(settings.numberOfSamples) ?? 1
         
         return try await pathTracer.renderSingle(scene: settings.selectedScene,
                                                  width: settings.width,
@@ -86,10 +88,7 @@ class RenderService: ObservableObject {
     }
     
     private func renderSimpleAsync(settings: Settings) async throws -> NSImage {
-        guard let samples = Int(settings.numberOfSamples) else {
-            // TODO: Throw something
-            fatalError("How'd a non-number get here?")
-        }
+        let samples = Int(settings.numberOfSamples) ?? 1
 
         return try await pathTracer.renderSimpleAsync(scene: settings.selectedScene,
                                                       width: settings.width,
@@ -98,10 +97,7 @@ class RenderService: ObservableObject {
     }
 
     private  func renderTaskGroup(settings: Settings) async throws -> NSImage {
-        guard let samples = Int(settings.numberOfSamples) else {
-            // TODO: Throw something
-            fatalError("How'd a non-number get here?")
-        }
+        let samples = Int(settings.numberOfSamples) ?? 1
 
         return try await pathTracer.renderTaskGroup(scene: settings.selectedScene,
                                                     width: settings.width,
