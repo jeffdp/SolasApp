@@ -38,6 +38,8 @@ struct InspectorView: View {
             
             Spacer()
             
+            Text(renderService.renderTime)
+            
             if let progress = renderService.renderProgress {
                 ProgressView(value: progress)
                     .progressViewStyle(.linear)

@@ -14,6 +14,7 @@ enum RenderError: Error {
 class RenderService: ObservableObject {
     @Published var image: NSImage?
     @Published var renderProgress: Float?
+    @Published var renderTime = ""
     
     private let pathTracer = PathTracer()
     private var cancellables = Set<AnyCancellable>()
@@ -32,7 +33,13 @@ class RenderService: ObservableObject {
                 self?.renderProgress = progress
             }
             .store(in: &cancellables)
-        
+
+        let startTime = Date()
+        defer {
+            let interval = Date().timeIntervalSince(startTime)
+            renderTime = "\(interval.rounded()) seconds"
+        }
+
         switch settings.selectedRenderer {
         case .testGradient:
             image = try await renderGradient(settings: settings)
@@ -43,9 +50,6 @@ class RenderService: ObservableObject {
         case .task:
             image =  try await renderTaskGroup(settings: settings)
         }
-
-        // Would be false if not for @MainActor above
-        print("main (render(settings:) after render: \(Thread.isMainThread)")
 
         // Render progress is nil once the render completes
         renderProgress = nil
