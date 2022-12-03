@@ -4,23 +4,117 @@ import SwiftImage
 import AppKit
 import SwiftUI
 
-actor PathTracer {
+class PathTracer {
     static let progressNotification = Notification.Name("RenderProgressNotification")
     
     // MARK: - Async API
-    
+
+    func renderGraident(row: Int, width: Int, height: Int) -> [RGBA<UInt8>] {
+        let camera = Camera(lowerLeft: vec3(-2, -1, -1),
+                            horizontal: vec3(4, 0, 0),
+                            vertical: vec3(0, 2, 0),
+                            origin: vec3(0, 0, 0))
+
+        var pixels = [RGBA<UInt8>]()
+        pixels.reserveCapacity(width)
+
+        for i in 0..<width {
+            let u = (Float(i) + 0.5) / Float(width)
+            let v = (Float(row) + 0.5) / Float(height)
+            let ray = camera.ray(u: u, v: v)
+            let color = gradient(ray: ray)
+
+            let pixel = RGBA(red: UInt8(color.red),
+                             green: UInt8(color.green),
+                             blue: UInt8(color.blue))
+            pixels.append(pixel)
+        }
+
+        return pixels
+    }
+
+    func renderGradient(range: Range<Int>, width: Int, height: Int) -> [RGBA<UInt8>]  {
+        var pixels = [RGBA<UInt8>]()
+        pixels.reserveCapacity(width * range.count)
+
+        let camera = Camera(lowerLeft: vec3(-2, -1, -1),
+                            horizontal: vec3(4, 0, 0),
+                            vertical: vec3(0, 2, 0),
+                            origin: vec3(0, 0, 0))
+
+        for j in range.reversed() {
+            for i in 0..<width {
+                let u = (Float(i) + 0.5) / Float(width)
+                let v = (Float(j) + 0.5) / Float(height)
+                let ray = camera.ray(u: u, v: v)
+                let color = gradient(ray: ray)
+
+                let pixel = RGBA(red: UInt8(color.red),
+                                 green: UInt8(color.green),
+                                 blue: UInt8(color.blue))
+                pixels.append(pixel)
+            }
+        }
+
+        return pixels
+    }
+
     func renderGradient(width: Int, height: Int) async throws -> NSImage {
         return await withCheckedContinuation { continuation in
             let image = gradient(width: width, height: height)
-            
+
             continuation.resume(returning: image)
         }
+    }
+
+    func renderTaskGradient(width: Int, height: Int) async throws -> NSImage {
+        var pixels = [Int:[RGBA<UInt8>]]()
+
+        try await withThrowingTaskGroup(of: (Int, [RGBA<UInt8>]).self) { group in
+            let steps = 10
+            pixels.reserveCapacity(steps)
+
+            let stepSize = Int(height / steps)
+            let remaining = height - steps * stepSize
+
+            var ranges = [Range<Int>]()
+            
+            for i in 0..<steps {
+                let start = i * stepSize
+                let range = start..<(start + stepSize)
+                ranges.append(range)
+            }
+
+            if remaining > 0 {
+                ranges.append((height - remaining)..<height)
+            }
+
+            for rangeIndex in (0..<ranges.count).reversed() {
+                let range = ranges[rangeIndex]
+
+                group.addTask {
+                    return (rangeIndex, self.renderGradient(range: range, width: width, height: height))
+                }
+            }
+
+            for try await (index, value) in group {
+                pixels[index] = value
+            }
+        }
+
+        var fullImage = [RGBA<UInt8>]()
+        fullImage.reserveCapacity(width * height)
+
+        for subImage in pixels.sorted(by: { $0.key > $1.key}).map({ $0.value }) {
+            fullImage.append(contentsOf: subImage)
+        }
+
+        return Image(width: width, height: height, pixels: fullImage).nsImage
+
     }
     
     func renderSingle(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) async throws -> NSImage {
         return await withCheckedContinuation { continuation in
-            print("main (inside withCheckedContinuation): \(Thread.isMainThread)")
-
             let image = trace(scene: scene,
                               width: width,
                               height: height,
@@ -35,7 +129,7 @@ actor PathTracer {
     }
     
     func renderTaskGroup(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) async throws -> NSImage {
-        return try await renderGradient(width: width, height: height)
+        return try await renderTaskGradient(width: width, height: height)
     }
     
     // MARK: - Internal methods
