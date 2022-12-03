@@ -21,8 +21,6 @@ class RenderService: ObservableObject {
     
     @MainActor
     func render(settings: Settings) async throws {
-        print("main (render(settings:): \(Thread.isMainThread)")
-        
         let image: NSImage
         
         renderProgress = 0
@@ -81,8 +79,6 @@ class RenderService: ObservableObject {
     }
     
     private func renderSingle(settings: Settings) async throws -> NSImage {
-        print("main (renderSingle(settings:): \(Thread.isMainThread)")
-
         let samples = Int(settings.numberOfSamples) ?? 1
         
         return try await pathTracer.renderSingle(scene: settings.selectedScene,

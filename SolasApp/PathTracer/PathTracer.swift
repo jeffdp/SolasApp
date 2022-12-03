@@ -18,8 +18,6 @@ actor PathTracer {
     }
     
     func renderSingle(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) async throws -> NSImage {
-        print("main (before withCheckedContinuation): \(Thread.isMainThread)")
-        
         return await withCheckedContinuation { continuation in
             print("main (inside withCheckedContinuation): \(Thread.isMainThread)")
 
