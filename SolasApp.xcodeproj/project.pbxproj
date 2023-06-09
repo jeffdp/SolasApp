@@ -28,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F53F4A22A33C4B80066E424 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1FB46F0D2839766E006F4E6B /* SolasApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SolasApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FB46F102839766E006F4E6B /* SolasAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolasAppApp.swift; sourceTree = "<group>"; };
 		1FB46F122839766E006F4E6B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -88,6 +89,7 @@
 		1FB46F0F2839766E006F4E6B /* SolasApp */ = {
 			isa = PBXGroup;
 			children = (
+				1F53F4A22A33C4B80066E424 /* Info.plist */,
 				1FB46F102839766E006F4E6B /* SolasAppApp.swift */,
 				1FB46F122839766E006F4E6B /* ContentView.swift */,
 				1FB46F3928399A61006F4E6B /* InspectorView.swift */,
@@ -355,7 +357,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_FILE = SolasApp/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -386,7 +388,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.entertainment";
+				INFOPLIST_FILE = SolasApp/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
