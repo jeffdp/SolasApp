@@ -19,13 +19,6 @@ struct InspectorView: View {
                     Text("Random Spheres").tag(RenderScene.randomSpheres)
                 }
                 
-                Picker("Render Method", selection: $settings.selectedRenderer) {
-                    Text("Test Gradient").tag(Renderer.testGradient)
-                    Text("Single thread").tag(Renderer.single)
-                    Text("Simple Async").tag(Renderer.async)
-                    Text("Task Groups").tag(Renderer.task)
-                }
-            
                 TextField("Number of samples", text: $settings.numberOfSamples)
                     .onReceive(Just(settings.numberOfSamples)) { newValue in
                         var filtered = newValue.filter { "0123456789".contains($0) }
