@@ -12,7 +12,7 @@ enum RenderError: Error {
 }
 
 class RenderService: ObservableObject {
-    @Published var image: NSImage?
+    @Published var image: OSImage?
     @Published var renderProgress: Float?
     @Published var renderTime = ""
     
@@ -21,8 +21,8 @@ class RenderService: ObservableObject {
     
     @MainActor
     func render(settings: Settings) async throws {
-        let image: NSImage
-        
+        let image: OSImage
+
         renderProgress = 0
         NotificationCenter.default.publisher(for: PathTracer.progressNotification)
             .compactMap{$0.object as? Float}
@@ -56,8 +56,13 @@ class RenderService: ObservableObject {
     
     // MARK: - Internal methods
     
-    private func denoise(_ image: NSImage) -> NSImage {
+    private func denoise(_ image: OSImage) -> OSImage {
+        #if os(macOS)
         let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)!
+//        let cgImage = image.cgImage( : nil, context: nil, hints: nil)!
+        #elseif os(iOS)
+        let cgImage = image.cgImage!
+        #endif
 
         let context = CIContext()
         let currentFilter = CIFilter.noiseReduction()
@@ -71,14 +76,18 @@ class RenderService: ObservableObject {
             return image
         }
 
-       return NSImage(cgImage: cgimg, size: image.size)
+        #if os(macOS)
+        return OSImage(cgImage: cgimg, size: image.size)
+        #elseif os(iOS)
+        return OSImage(cgImage: cgimg)
+        #endif
     }
     
-    private func renderGradient(settings: Settings) async throws -> NSImage {
+    private func renderGradient(settings: Settings) async throws -> OSImage {
         return try await pathTracer.renderGradient(width: settings.width, height: settings.height)
     }
     
-    private func renderSingle(settings: Settings) async throws -> NSImage {
+    private func renderSingle(settings: Settings) async throws -> OSImage {
         let samples = Int(settings.numberOfSamples) ?? 1
         
         return try await pathTracer.renderSingle(scene: settings.selectedScene,
@@ -87,7 +96,7 @@ class RenderService: ObservableObject {
                                                  numberOfSamples: samples)
     }
     
-    private func renderSimpleAsync(settings: Settings) async throws -> NSImage {
+    private func renderSimpleAsync(settings: Settings) async throws -> OSImage {
         let samples = Int(settings.numberOfSamples) ?? 1
 
         return try await pathTracer.renderSimpleAsync(scene: settings.selectedScene,
@@ -96,7 +105,7 @@ class RenderService: ObservableObject {
                                                       numberOfSamples: samples)
     }
 
-    private  func renderTaskGroup(settings: Settings) async throws -> NSImage {
+    private  func renderTaskGroup(settings: Settings) async throws -> OSImage {
         let samples = Int(settings.numberOfSamples) ?? 1
 
         return try await pathTracer.renderTaskGroup(scene: settings.selectedScene,

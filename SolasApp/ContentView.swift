@@ -20,14 +20,28 @@ struct ContentView: View {
     @StateObject var renderService: RenderService = RenderService()
     
     var body: some View {
+        #if os(macOS)
         HSplitView {
             RenderView(image: $renderService.image)
-                .frame(minWidth: nil, idealWidth: nil, maxWidth: .infinity,
+                .frame(minWidth: nil, idealWidth: nil, maxWidth: 820,
                        minHeight: nil, idealHeight: nil, maxHeight: .infinity,
                        alignment: .center)
                 .padding()
             InspectorView(settings: settings, renderService: renderService)
         }
+        #elseif os(iOS)
+        HStack {
+            RenderView(image: $renderService.image)
+                .frame(minWidth: nil, idealWidth: nil, maxWidth: .infinity,
+                       minHeight: nil, idealHeight: nil, maxHeight: .infinity,
+                       alignment: .center)
+                .padding()
+
+            InspectorView(settings: settings, renderService: renderService)
+                .frame(width: 300)
+                .frame(maxHeight: .infinity)
+        }
+        #endif
     }
 }
 

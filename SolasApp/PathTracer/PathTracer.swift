@@ -1,8 +1,15 @@
 //  Copyright © 2022 Jeff Porter. All rights reserved.
 
 import SwiftImage
-import AppKit
 import SwiftUI
+
+#if os(macOS)
+import AppKit
+typealias OSImage = NSImage
+#elseif os(iOS)
+import UIKit
+typealias OSImage = UIImage
+#endif
 
 class PathTracer {
     static let progressNotification = Notification.Name("RenderProgressNotification")
@@ -59,7 +66,7 @@ class PathTracer {
         return pixels
     }
 
-    func renderGradient(width: Int, height: Int) async throws -> NSImage {
+    func renderGradient(width: Int, height: Int) async throws -> OSImage {
         return await withCheckedContinuation { continuation in
             let image = gradient(width: width, height: height)
 
@@ -67,7 +74,7 @@ class PathTracer {
         }
     }
 
-    func renderTaskGradient(width: Int, height: Int) async throws -> NSImage {
+    func renderTaskGradient(width: Int, height: Int) async throws -> OSImage {
         var pixels = [Int:[RGBA<UInt8>]]()
 
         try await withThrowingTaskGroup(of: (Int, [RGBA<UInt8>]).self) { group in
@@ -109,11 +116,14 @@ class PathTracer {
             fullImage.append(contentsOf: subImage)
         }
 
+        #if os(macOS)
         return Image(width: width, height: height, pixels: fullImage).nsImage
-
+        #elseif os(iOS)
+        return Image(width: width, height: height, pixels: fullImage).uiImage
+        #endif
     }
     
-    func renderSingle(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) async throws -> NSImage {
+    func renderSingle(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) async throws -> OSImage {
         return await withCheckedContinuation { continuation in
             let image = trace(scene: scene,
                               width: width,
@@ -124,17 +134,17 @@ class PathTracer {
         }
     }
     
-    func renderSimpleAsync(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) async throws -> NSImage {
+    func renderSimpleAsync(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) async throws -> OSImage {
         return try await renderGradient(width: width, height: height)
     }
     
-    func renderTaskGroup(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) async throws -> NSImage {
+    func renderTaskGroup(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) async throws -> OSImage {
         return try await renderTaskGradient(width: width, height: height)
     }
     
     // MARK: - Internal methods
     
-    private func trace(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) -> NSImage {
+    private func trace(scene: RenderScene, width: Int, height: Int, numberOfSamples: Int) -> OSImage {
         let sceneInfo = RenderScenes().scene(for: scene)
         
         var pixels = [RGBA<UInt8>]()
@@ -167,7 +177,12 @@ class PathTracer {
         }
         
         let image = Image(width: width, height: height, pixels: pixels)
-        return image.nsImage        
+
+        #if os(macOS)
+        return image.nsImage
+        #elseif os(iOS)
+        return image.uiImage
+        #endif
     }
     
     private func gradient(ray: Ray) -> Color {
@@ -194,7 +209,7 @@ class PathTracer {
         return Color(lerp)
     }
 
-    private func gradient(width: Int, height: Int) -> NSImage {
+    private func gradient(width: Int, height: Int) -> OSImage {
         var pixels = [RGBA<UInt8>]()
         pixels.reserveCapacity(width * height)
 
@@ -219,6 +234,10 @@ class PathTracer {
         
         let image = Image(width: width, height: height, pixels: pixels)
         
+        #if os(macOS)
         return image.nsImage
+        #elseif os(iOS)
+        return image.uiImage
+        #endif
     }
 }

@@ -5,8 +5,10 @@
 //  Created by Jeffrey Porter on 5/21/22.
 //
 
-import AppKit
 import SwiftUI
+
+#if os(macOS)
+import AppKit
 
 func imageFromBitmap(width: Int, height: Int, pixels: [Color]) -> NSImage? {
     let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
@@ -17,11 +19,11 @@ func imageFromBitmap(width: Int, height: Int, pixels: [Color]) -> NSImage? {
     let pixelSize = MemoryLayout.size(ofValue: Color())
     let bytesPerRow = pixelSize * width
     var data = pixels
-    
+
     guard let provider = CGDataProvider(data: NSData(bytes: &data, length: data.count * pixelSize)) else {
         return nil
     }
-    
+
     guard let cgImage = CGImage(width: width,
                                 height: height,
                                 bitsPerComponent: bitsPerComponent,
@@ -35,9 +37,47 @@ func imageFromBitmap(width: Int, height: Int, pixels: [Color]) -> NSImage? {
                                 intent: .defaultIntent) else {
         return nil
     }
-    
+
     return NSImage(cgImage: cgImage, size: CGSize(width: width, height: height))
 }
+#elseif os(iOS)
+import UIKit
+
+func imageFromBitmap(width: Int, height: Int, pixels: [Color]) -> UIImage? {
+    let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
+    let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue)
+
+    let bitsPerComponent = 8
+    let bitsPerPixel = 32
+    let pixelSize = MemoryLayout.size(ofValue: Color())
+    let bytesPerRow = pixelSize * width
+    var data = pixels
+
+    guard let provider = CGDataProvider(data: NSData(bytes: &data, length: data.count * pixelSize)) else {
+        return nil
+    }
+
+    guard let cgImage = CGImage(width: width,
+                                height: height,
+                                bitsPerComponent: bitsPerComponent,
+                                bitsPerPixel: bitsPerPixel,
+                                bytesPerRow: bytesPerRow,
+                                space: rgbColorSpace,
+                                bitmapInfo: bitmapInfo,
+                                provider: provider,
+                                decode: nil,
+                                shouldInterpolate: true,
+                                intent: .defaultIntent) else {
+        return nil
+    }
+
+//    return UIImage(cgImage: cgImage, size: CGSize(width: width, height: height))
+
+    return UIImage(cgImage: cgImage)
+}
+#endif
+
+
 
 //func test(width: Int, height: Int, pixels: [Color]) {
 //    let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedFirst.rawValue)
